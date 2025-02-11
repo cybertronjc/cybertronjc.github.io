@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff6b6b, #ffd3d3);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #ff4b4b;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn-yes {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-no {
+            background: #ff4b4b;
+            color: white;
+            position: relative;
+        }
+
+        /* Hearts background animation */
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 1.5rem;
+            user-select: none;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Will You Be My Valentine? ❤️</h1>
+        <div class="buttons">
+            <button class="btn btn-yes" onclick="sayYes()">Yes</button>
+            <button class="btn btn-no" onmouseover="moveButton(this)">No</button>
+        </div>
+    </div>
+
+    <script>
+        function moveButton(button) {
+            // Generate random position within viewport
+            const x = Math.random() * (window.innerWidth - button.offsetWidth);
+            const y = Math.random() * (window.innerHeight - button.offsetHeight);
+            
+            // Keep button within viewport bounds
+            button.style.position = 'absolute';
+            button.style.left = Math.min(x, window.innerWidth - button.offsetWidth) + 'px';
+            button.style.top = Math.min(y, window.innerHeight - button.offsetHeight) + 'px';
+        }
+
+        function sayYes() {
+            // Clear existing content
+            document.body.innerHTML = `
+                <div class="container">
+                    <h1>Yay! I'm so happy! ❤️</h1>
+                </div>
+            `;
+            
+            // Create floating hearts
+            createHearts();
+        }
+
+        function createHearts() {
+            const hearts = ['❤️', '💖', '💝', '💕', '💗'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                
+                // Random starting position
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animation = `floatHeart ${3 + Math.random() * 3}s linear`;
+                
+                document.body.appendChild(heart);
+                
+                // Remove heart after animation
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }, 300);
+        }
+    </script>
+</body>
+</html>
